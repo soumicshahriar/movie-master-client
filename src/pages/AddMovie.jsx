@@ -38,7 +38,7 @@ const AddMovie = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/all-movies", movieData);
+      await axios.post("http://localhost:3000/movies/add", movieData);
       alert("🎉 Movie added successfully!");
       form.reset();
     } catch (error) {

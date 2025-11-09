@@ -20,7 +20,7 @@ const MyCollectionsTable = ({ movie }) => {
 
   const handleDelete = (id) => {
     if (confirm("Are you sure you want to delete this movie?")) {
-      fetch(`http://localhost:3000/all-movies/${id}`, { method: "DELETE" })
+      fetch(`http://localhost:3000/movies/${id}`, { method: "DELETE" })
         .then((res) => res.json())
         .then(() => {
           alert("Movie deleted successfully!");

@@ -23,7 +23,7 @@ const Header = () => {
       </li>
       <li>
         <NavLink
-          to="/all-movies"
+          to="/movies"
           className={({ isActive }) =>
             isActive ? "text-primary font-semibold" : "text-gray-400"
           }

@@ -13,7 +13,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/all-movies/${id}`)
+      .get(`http://localhost:3000/movies/${id}`)
       .then((res) => {
         setMovie(res.data);
         setLoading(false);
@@ -27,7 +27,7 @@ const MovieDetails = () => {
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this movie?")) {
       axios
-        .delete(`http://localhost:3000/all-movies/${id}`)
+        .delete(`http://localhost:3000/movies/${id}`)
         .then(() => {
           alert("Movie deleted successfully");
           navigate("/"); // Redirect to home page after deletion

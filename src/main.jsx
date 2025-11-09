@@ -23,8 +23,8 @@ const router = createBrowserRouter([
         Component: HomePage,
       },
       {
-        path: "all-movies",
-        loader: () => fetch("http://localhost:3000/all-movies"),
+        path: "movies",
+        loader: () => fetch("http://localhost:3000/movies"),
         Component: AllMovies,
       },
       {
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
         path: "/edit-movie/:id",
         element: <UpdateMovie></UpdateMovie>,
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/all-movies/${params.id}`),
+          fetch(`http://localhost:3000/movies/${params.id}`),
       },
       {
         path: "login",

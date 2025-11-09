@@ -46,11 +46,11 @@ const UpdateMovie = () => {
 
     try {
       await axios.patch(
-        `http://localhost:3000/all-movies/${movie._id}`,
+        `http://localhost:3000/movies/update/${movie._id}`,
         movieData
       );
       alert("Movie Updated successfully!");
-      navigate("/all-movies");
+      navigate("/movies");
 
       //   e.target.reset();
     } catch (error) {

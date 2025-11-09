@@ -13,7 +13,7 @@ const MyCollections = () => {
     if (!user?.email) return;
 
     axios
-      .get(`http://localhost:3000/all-movies?email=${user.email}`)
+      .get(`http://localhost:3000/movies/my-collection?email=${user.email}`)
       .then((res) => setMovies(res.data))
       .catch((err) => console.error("Error fetching user movies:", err));
   }, [user]);
