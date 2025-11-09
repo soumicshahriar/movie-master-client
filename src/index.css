@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "night";
+  default: true;
+  --color-primary: #c71585;
+}
+
+.active {
+  border-bottom: 2px solid #c94a9a;
+  background-color: transparent;
+}
