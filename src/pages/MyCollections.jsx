@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import MyCollectionsTable from "./MyCollectionsTable";
+import { motion } from "framer-motion";
+import { FaFilm, FaTrashAlt, FaEdit } from "react-icons/fa";
 
 const MyCollections = () => {
   const [movies, setMovies] = useState([]);
@@ -17,43 +19,58 @@ const MyCollections = () => {
   }, [user]);
 
   return (
-    <div className=" px-4 py-10">
+    <div className="md:px-4 py-10 max-w-11/12 mx-auto">
       {/* Header Section */}
-      <div className="text-center mb-10">
-        <h1 className="text-4xl font-extrabold text-primary mb-2">
-          🎬 My Movie Collections
+      <motion.div
+        className="text-center mb-10"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1 className="text-xl md:text-4xl font-extrabold text-primary mb-2 flex justify-center items-center gap-2">
+          <FaFilm /> My Movie Collections
         </h1>
 
         <div className="mt-3">
-          <span className="bg-primary/10 text-primary px-4 py-1 rounded-full font-semibold">
+          <span className="bg-primary/10 text-primary px-4 py-1 rounded-full font-semibold text-sm md:text-base">
             Total Movies: {movies.length}
           </span>
         </div>
-      </div>
+      </motion.div>
 
       {/* Movie Table */}
-      <div className="overflow-x-auto bg-base-200 rounded-2xl shadow-lg border border-primary/20">
-        <table className="table w-full">
-          <thead className="bg-primary text-white text-sm">
+      <motion.div
+        className="overflow-x-auto bg-base-200 rounded-2xl shadow-lg border border-primary/20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <table className="table w-full min-w-[900px] md:min-w-full">
+          <thead className="bg-primary text-white text-xs md:text-sm">
             <tr>
               <th>Poster</th>
               <th>Title</th>
               <th>Genre</th>
-              <th>Release Year</th>
+              <th>Year</th>
               <th>Director</th>
               <th>Cast</th>
               <th>Rating</th>
-              <th>Duration (min)</th>
+              <th>Duration</th>
               <th>Language</th>
               <th>Country</th>
-              <th>Plot Summary</th>
+              <th>Plot</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {movies.length > 0 ? (
               movies.map((movie) => (
-                <MyCollectionsTable key={movie._id} movie={movie} />
+                <MyCollectionsTable
+                  key={movie._id}
+                  movie={movie}
+                  motionComponent={motion} // Pass motion to table rows for animation
+                  icons={{ FaTrashAlt, FaEdit }} // Pass icons for actions
+                />
               ))
             ) : (
               <tr>
@@ -64,7 +81,7 @@ const MyCollections = () => {
             )}
           </tbody>
         </table>
-      </div>
+      </motion.div>
     </div>
   );
 };

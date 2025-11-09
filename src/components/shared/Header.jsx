@@ -61,7 +61,7 @@ const Header = () => {
   };
 
   return (
-    <nav className="navbar shadow-md shadow-primary bg-base-100 px-4 py-2 fixed top-0 left-0 right-0 ">
+    <nav className="navbar shadow-md shadow-primary bg-base-100 px-4 py-2 fixed top-0 left-0 right-0 z-10">
       {/* Start */}
       <div className="navbar-start flex items-center">
         {/* Hamburger menu for small screens */}
