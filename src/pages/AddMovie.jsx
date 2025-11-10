@@ -18,6 +18,16 @@ const AddMovie = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
 
+  const genres = [
+    "Action",
+    "Drama",
+    "Comedy",
+    "Horror",
+    "Sci-Fi",
+    "Romance",
+    "Thriller",
+  ];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -48,13 +58,12 @@ const AddMovie = () => {
         timer: 1500,
       });
 
-      //
       form.reset();
     } catch (error) {
       console.error(error);
       Swal.fire({
         position: "top-end",
-        icon: "success",
+        icon: "error",
         title: "❌ Failed to add movie. Please try again.",
         showConfirmButton: false,
         timer: 1500,
@@ -66,7 +75,7 @@ const AddMovie = () => {
 
   return (
     <motion.div
-      className="max-w-7xl mx-auto bg-base-100 p-8 rounded-2xl shadow-lg border border-primary/20 mt-10 "
+      className="max-w-7xl mx-auto bg-base-100 p-8 rounded-2xl shadow-lg border border-primary/20 mt-10"
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -96,13 +105,21 @@ const AddMovie = () => {
             <label className="label font-semibold">
               <MdCategory className="inline mr-2 text-primary" /> Genre
             </label>
-            <input
-              type="text"
+            <select
               name="genre"
-              placeholder="e.g., Sci-Fi, Action"
               className="input input-bordered w-full focus:border-primary focus:outline-0 transition-all"
               required
-            />
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Select Genre
+              </option>
+              {genres.map((genre) => (
+                <option key={genre} value={genre}>
+                  {genre}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="form-control">
             <label className="label font-semibold">

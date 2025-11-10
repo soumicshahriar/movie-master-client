@@ -116,7 +116,7 @@ const HomePage = () => {
               }
               className={`px-4 py-2 rounded ${
                 selectedGenres.includes(genre)
-                  ? "bg-primary text-white"
+                  ? "bg-primary text-white shadow-lg shadow-primary"
                   : "border border-primary"
               }`}
             >
