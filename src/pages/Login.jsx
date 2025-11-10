@@ -22,7 +22,7 @@ const Login = () => {
     try {
       await signInUser(email, password);
       alert("Login successful!");
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err.message);
     }

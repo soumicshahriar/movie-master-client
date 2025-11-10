@@ -1,12 +1,11 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router";
-import { toast } from "react-toastify";
-import { FaGoogle } from "react-icons/fa";
+import { Link, useNavigate } from "react-router";
+import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
-
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -29,21 +28,29 @@ const Register = () => {
 
     setError("");
     setSuccess("");
-    createUser(email, password)
-      .then(() => {
-        // console.log(result.user);
-        setSuccess("User created successful");
-        form.reset();
-      })
-      .catch(() => {
-        setError("Email is already exist ? Please Try with different Email");
+
+    try {
+      // Create user in Firebase/Auth
+      await createUser(email, password);
+
+      // Add user to your backend
+      await axios.post("http://localhost:3000/users", {
+        name,
+        email,
+        photo: photoURL,
       });
 
-    setError("");
+      setSuccess("User created successfully!");
+      form.reset();
+      navigate("/"); // Redirect after successful registration
+    } catch (err) {
+      console.error(err);
+      setError("Registration failed! Email may already exist.");
+    }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen ">
+    <div className="flex justify-center items-center min-h-screen">
       <div className="p-8 rounded-2xl shadow-md shadow-primary w-full max-w-md border-b-2 border-primary">
         <h2 className="text-3xl font-semibold text-center mb-6 text-primary">
           Register

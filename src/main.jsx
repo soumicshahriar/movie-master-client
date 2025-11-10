@@ -13,6 +13,7 @@ import AddMovie from "./pages/AddMovie.jsx";
 import MovieDetails from "./pages/MovieDetails.jsx";
 import UpdateMovie from "./pages/UpdateMovie.jsx";
 import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
         path: "/register",
         Component: Register,
       },
+      {
+        path:'*',
+        Component: NotFoundPage
+      }
     ],
   },
 ]);

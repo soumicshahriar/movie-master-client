@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,8 +8,11 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import MovieCard from "./MovieCard";
 import { FaUsers, FaFilm, FaStar } from "react-icons/fa";
+import { AuthContext } from "../context/AuthContext";
+import Loader from "../components/Loader";
 
 const HomePage = () => {
+  const { loading } = use(AuthContext);
   const [movies, setMovies] = useState([]);
   const [topRated, setTopRated] = useState([]);
   const [recentlyAdded, setRecentlyAdded] = useState([]);
@@ -27,6 +30,10 @@ const HomePage = () => {
       .then((res) => setRecentlyAdded(res.data));
     axios.get("http://localhost:3000/stats").then((res) => setStats(res.data));
   }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   const sectionVariants = {
     hidden: { opacity: 0, y: 40 },

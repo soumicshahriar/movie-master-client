@@ -18,15 +18,15 @@ const MyCollections = () => {
       .catch((err) => console.error("Error fetching user movies:", err));
   }, [user]);
 
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+  };
+
   return (
-    <div className="md:px-4 py-10 max-w-11/12 mx-auto">
+    <div className=" max-w-11/12 py-8 mx-auto">
       {/* Header Section */}
-      <motion.div
-        className="text-center mb-10"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
+      <div className="text-center mb-10">
         <h1 className="text-xl md:text-4xl font-extrabold text-primary mb-2 flex justify-center items-center gap-2">
           <FaFilm /> My Movie Collections
         </h1>
@@ -36,16 +36,17 @@ const MyCollections = () => {
             Total Movies: <span className="text-primary">{movies.length}</span>
           </span>
         </div>
-      </motion.div>
+      </div>
 
       {/* Movie Table */}
       <motion.div
-        className="overflow-x-auto bg-base-200 rounded-2xl shadow-lg border border-primary/20"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        className="overflow-x-auto w-full bg-base-200 rounded-2xl shadow-lg border border-primary/20"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+        variants={sectionVariants}
       >
-        <table className="table w-full min-w-[900px] md:min-w-full">
+        <table className="table w-full min-w-full md:min-w-full">
           <thead className="bg-primary text-white text-xs md:text-sm">
             <tr>
               <th>Poster</th>
