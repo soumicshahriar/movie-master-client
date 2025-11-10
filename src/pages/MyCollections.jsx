@@ -41,9 +41,9 @@ const MyCollections = () => {
       {/* Movie Table */}
       <motion.div
         className="overflow-x-auto bg-base-200 rounded-2xl shadow-lg border border-primary/20"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
       >
         <table className="table w-full min-w-[900px] md:min-w-full">
           <thead className="bg-primary text-white text-xs md:text-sm">
