@@ -2,6 +2,15 @@ import React, { useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  FaUser,
+  FaSignOutAlt,
+  FaSignInAlt,
+  FaHome,
+  FaFilm,
+  FaFolderOpen,
+  FaPlusCircle,
+} from "react-icons/fa";
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -15,40 +24,48 @@ const Header = () => {
         <NavLink
           to="/"
           className={({ isActive }) =>
-            isActive ? "text-primary font-semibold" : "text-gray-400"
+            isActive
+              ? "text-primary font-semibold flex items-center gap-1"
+              : "text-gray-400 flex items-center gap-1"
           }
         >
-          Home
+          <FaHome /> Home
         </NavLink>
       </li>
       <li>
         <NavLink
           to="/movies"
           className={({ isActive }) =>
-            isActive ? "text-primary font-semibold" : "text-gray-400"
+            isActive
+              ? "text-primary font-semibold flex items-center gap-1"
+              : "text-gray-400 flex items-center gap-1"
           }
         >
-          All Movies
+          <FaFilm /> All Movies
         </NavLink>
       </li>
       <li>
         <NavLink
           to="/my-collections"
           className={({ isActive }) =>
-            isActive ? "text-primary font-semibold" : "text-gray-400"
+            isActive
+              ? "text-primary font-semibold flex items-center gap-1"
+              : "text-gray-400 flex items-center gap-1"
           }
         >
-          My Collections
+          <FaFolderOpen /> My Collections
         </NavLink>
       </li>
       <li>
         <NavLink
           to="/add-movie"
           className={({ isActive }) =>
-            isActive ? "text-primary font-semibold" : "text-gray-400"
+            isActive
+              ? "text-primary font-semibold flex items-center gap-1"
+              : "text-gray-400 flex items-center gap-1"
           }
         >
-          Add Movie
+          <FaPlusCircle /> Add Movie
         </NavLink>
       </li>
     </>
@@ -121,9 +138,9 @@ const Header = () => {
                           handleLogOut();
                           setMenuOpen(false);
                         }}
-                        className="btn w-full bg-primary hover:bg-pink-600"
+                        className="btn w-full bg-primary hover:bg-pink-600 flex items-center justify-center gap-2"
                       >
-                        Logout
+                        <FaSignOutAlt /> Logout
                       </button>
                     </li>
                   ) : (
@@ -131,9 +148,9 @@ const Header = () => {
                       <Link
                         to="/login"
                         onClick={() => setMenuOpen(false)}
-                        className="btn w-full bg-primary hover:bg-pink-600"
+                        className="btn w-full bg-primary hover:bg-pink-600 flex items-center justify-center gap-2"
                       >
-                        Login / Register
+                        <FaSignInAlt /> Login / Register
                       </Link>
                     </li>
                   )}
@@ -162,13 +179,16 @@ const Header = () => {
         {user ? (
           <button
             onClick={handleLogOut}
-            className="btn bg-primary hover:bg-pink-600"
+            className="btn bg-primary hover:bg-pink-600 flex items-center gap-2"
           >
-            Logout
+            <FaSignOutAlt /> Logout
           </button>
         ) : (
-          <Link to="/login" className="btn bg-primary hover:bg-pink-600">
-            Login / Register
+          <Link
+            to="/login"
+            className="btn bg-primary hover:bg-pink-600 flex items-center gap-2"
+          >
+            <FaSignInAlt /> Login / Register
           </Link>
         )}
       </div>
