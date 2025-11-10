@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import MovieCard from "./MovieCard";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
@@ -33,18 +38,44 @@ const HomePage = () => {
   console.log(movies, recentlyAdded, topRated);
 
   return (
-    <div className="space-y-20">
+    <div className="space-y-20 mt-10 max-w-11/12 mx-auto">
       {/* Hero Section: Featured Movies Carousel */}
       <section className="relative h-96 w-full">
         <motion.div
-          className="h-full w-full flex overflow-x-auto space-x-4 p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
+          className="h-full w-full"
         >
-          {movies.slice(0, 5).map((movie) => (
-            <MovieCard key={movie._id} movie={movie} />
-          ))}
+          <Swiper
+            modules={[Autoplay, Pagination, Navigation]}
+            spaceBetween={20}
+            loop={true}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            pagination={{ clickable: true }}
+            navigation={true}
+            breakpoints={{
+              0: {
+                slidesPerView: 1, // 📱 mobile
+              },
+              640: {
+                slidesPerView: 2, // 📱 large mobile / tablet
+              },
+              1024: {
+                slidesPerView: 3, // 💻 desktop
+              },
+              1440: {
+                slidesPerView: 4, // 🖥️ large screen
+              },
+            }}
+            className="h-full w-full"
+          >
+            {movies.slice(0, 5).map((movie) => (
+              <SwiperSlide key={movie._id}>
+                <MovieCard movie={movie} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </motion.div>
       </section>
 
@@ -70,9 +101,11 @@ const HomePage = () => {
       </section> */}
 
       {/* Top Rated Movies */}
-      <section className="space-y-6">
-        <h2 className="text-2xl font-bold text-center">Top Rated Movies</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <section className="space-y-6 shadow shadow:lg shadow-primary p-5">
+        <h2 className="text-2xl font-bold text-center">
+          <span className="text-primary">Top Rated</span> Movies
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6">
           {topRated.map((movie) => (
             <MovieCard key={movie._id} movie={movie} />
           ))}
@@ -80,9 +113,11 @@ const HomePage = () => {
       </section>
 
       {/* Recently Added */}
-      <section className="space-y-6">
-        <h2 className="text-2xl font-bold text-center">Recently Added</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+      <section className="space-y-6 shadow shadow:lg shadow-primary p-5">
+        <h2 className="text-2xl font-bold text-center">
+          <span className="text-primary">Recently</span> Added
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {recentlyAdded.map((movie) => (
             <MovieCard key={movie._id} movie={movie} />
           ))}
