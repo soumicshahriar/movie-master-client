@@ -13,7 +13,7 @@ const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [topRated, setTopRated] = useState([]);
   const [recentlyAdded, setRecentlyAdded] = useState([]);
-  // const [stats, setStats] = useState({ totalMovies: 0, totalUsers: 0 });
+  const [stats, setStats] = useState({ totalMovies: 0, totalUsers: 0 });
 
   useEffect(() => {
     // Fetch all movies
@@ -32,7 +32,9 @@ const HomePage = () => {
       .then((res) => setRecentlyAdded(res.data));
 
     // Fetch stats
-    // axios.get("/api/stats").then((res) => setStats(res.data));
+    axios
+      .get("http://localhost:3000/movies/stats")
+      .then((res) => setStats(res.data));
   }, []);
 
   console.log(movies, recentlyAdded, topRated);
@@ -80,7 +82,7 @@ const HomePage = () => {
       </section>
 
       {/* Statistics Section */}
-      {/* <section className="text-center py-10 bg-linear-to-r from-purple-500 via-pink-500 to-red-400 rounded-2xl text-white space-y-4">
+      <section className="text-center py-10  border border-primary rounded-2xl text-white space-y-4">
         <h2 className="text-3xl font-bold">Platform Statistics</h2>
         <div className="flex justify-center space-x-10 text-xl font-medium">
           <motion.div
@@ -98,7 +100,7 @@ const HomePage = () => {
             👥 Users: {stats.totalUsers}
           </motion.div>
         </div>
-      </section> */}
+      </section>
 
       {/* Top Rated Movies */}
       <section className="space-y-6 shadow shadow:lg shadow-primary p-5">
@@ -125,14 +127,14 @@ const HomePage = () => {
       </section>
 
       {/* Genre Section */}
-      <section className="space-y-4 text-center py-10 bg-gray-100 rounded-xl">
+      <section className="space-y-4 text-center py-10 rounded-xl">
         <h2 className="text-2xl font-bold">Genres</h2>
         <div className="flex flex-wrap justify-center gap-4 mt-4">
           {["Action", "Drama", "Comedy", "Horror", "Sci-Fi", "Romance"].map(
             (genre) => (
               <span
                 key={genre}
-                className="px-4 py-2 bg-purple-500 text-white rounded-full shadow-lg hover:scale-105 transition-transform"
+                className="px-4 py-2 bg-primary text-white rounded-full shadow-lg hover:scale-105 transition-transform"
               >
                 {genre}
               </span>
@@ -142,8 +144,8 @@ const HomePage = () => {
       </section>
 
       {/* About Platform Section */}
-      <section className="py-10 px-6 text-center bg-gradient-to-r from-pink-400 to-purple-600 text-white rounded-xl space-y-4">
-        <h2 className="text-3xl font-bold">About MovieMaster Pro</h2>
+      <section className="py-10 px-6 text-center bg-linear-to-r from-pink-400 to-pink-600 text-white rounded-xl space-y-4">
+        <h2 className="text-xl md:text-3xl font-bold">About MovieMaster Pro</h2>
         <p className="max-w-3xl mx-auto text-lg">
           MovieMaster Pro is your ultimate movie database platform, featuring a
           dynamic collection of movies, user ratings, and personalized
