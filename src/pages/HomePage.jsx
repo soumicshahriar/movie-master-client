@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -12,29 +12,64 @@ import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/Loader";
 
 const HomePage = () => {
-  const { loading } = use(AuthContext);
+  const { loading } = useContext(AuthContext);
+
   const [movies, setMovies] = useState([]);
   const [topRated, setTopRated] = useState([]);
   const [recentlyAdded, setRecentlyAdded] = useState([]);
   const [stats, setStats] = useState({ totalMovies: 0, totalUsers: 0 });
 
+  // Filters
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [minRating, setMinRating] = useState("");
+  const [maxRating, setMaxRating] = useState("");
+
+  // Fetch Movies with Filters
+  const fetchMovies = async () => {
+    try {
+      const params = {};
+      if (selectedGenres.length > 0) params.genres = selectedGenres.join(",");
+      if (minRating) params.minRating = minRating;
+      if (maxRating) params.maxRating = maxRating;
+
+      const res = await axios.get("http://localhost:3000/movies", { params });
+      setMovies(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Fetch Top Rated and Recently Added
+  const fetchOtherSections = async () => {
+    try {
+      const [top, recent, statRes] = await Promise.all([
+        axios.get("http://localhost:3000/movies/top-rated?limit=5"),
+        axios.get("http://localhost:3000/movies/recent?limit=6"),
+        axios.get("http://localhost:3000/stats"),
+      ]);
+
+      setTopRated(top.data);
+      setRecentlyAdded(recent.data);
+      setStats(statRes.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Initial Fetch
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/movies")
-      .then((res) => setMovies(res.data));
-    axios
-      .get("http://localhost:3000/movies/top-rated?limit=5")
-      .then((res) => setTopRated(res.data));
-    axios
-      .get("http://localhost:3000/movies/recent?limit=6")
-      .then((res) => setRecentlyAdded(res.data));
-    axios.get("http://localhost:3000/stats").then((res) => setStats(res.data));
+    fetchMovies();
+    fetchOtherSections();
   }, []);
 
-  if (loading) {
-    return <Loader />;
-  }
+  // Refetch filtered movies when filters change
+  useEffect(() => {
+    fetchMovies();
+  }, [selectedGenres, minRating, maxRating]);
 
+  if (loading) return <Loader />;
+
+  // Animation variants
   const sectionVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
@@ -45,9 +80,69 @@ const HomePage = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
+  const genres = [
+    "Action",
+    "Drama",
+    "Comedy",
+    "Horror",
+    "Sci-Fi",
+    "Romance",
+    "Thriller",
+  ];
+
   return (
     <div className="space-y-20 mt-10 max-w-7xl mx-auto px-4">
-      {/* Hero Section */}
+      {/* -------------------- Filter Section -------------------- */}
+      <motion.section
+        className="text-center mb-6"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+        variants={sectionVariants}
+      >
+        <h3 className="text-xl font-bold mb-2">
+          Filter <span className="text-primary">Movies</span>
+        </h3>
+        <div className="flex flex-wrap justify-center gap-2 mb-4">
+          {genres.map((genre) => (
+            <button
+              key={genre}
+              onClick={() =>
+                setSelectedGenres((prev) =>
+                  prev.includes(genre)
+                    ? prev.filter((g) => g !== genre)
+                    : [...prev, genre]
+                )
+              }
+              className={`px-4 py-2 rounded ${
+                selectedGenres.includes(genre)
+                  ? "bg-primary text-white"
+                  : "border border-primary"
+              }`}
+            >
+              {genre}
+            </button>
+          ))}
+        </div>
+        <div className="flex justify-center gap-2">
+          <input
+            type="number"
+            placeholder="Min Rating"
+            value={minRating}
+            onChange={(e) => setMinRating(e.target.value)}
+            className="border p-1 rounded"
+          />
+          <input
+            type="number"
+            placeholder="Max Rating"
+            value={maxRating}
+            onChange={(e) => setMaxRating(e.target.value)}
+            className="border p-1 rounded"
+          />
+        </div>
+      </motion.section>
+
+      {/* -------------------- Hero Section -------------------- */}
       <motion.section
         className="relative h-112 sm:h-96 w-full"
         initial="hidden"
@@ -86,7 +181,7 @@ const HomePage = () => {
         </Swiper>
       </motion.section>
 
-      {/* Stats Section */}
+      {/* -------------------- Stats Section -------------------- */}
       <motion.section
         className="text-center py-10 border border-primary rounded-2xl bg-gray-900 text-white space-y-6"
         initial="hidden"
@@ -121,7 +216,7 @@ const HomePage = () => {
         </div>
       </motion.section>
 
-      {/* Top Rated Movies */}
+      {/* -------------------- Top Rated Movies -------------------- */}
       <motion.section
         className="space-y-6 shadow-lg shadow-primary p-5 rounded-xl"
         initial="hidden"
@@ -149,7 +244,7 @@ const HomePage = () => {
         </div>
       </motion.section>
 
-      {/* Recently Added */}
+      {/* -------------------- Recently Added -------------------- */}
       <motion.section
         className="space-y-6 shadow-lg shadow-primary p-5 rounded-xl"
         initial="hidden"
@@ -176,7 +271,7 @@ const HomePage = () => {
         </div>
       </motion.section>
 
-      {/* Genres */}
+      {/* -------------------- Genres Section -------------------- */}
       <motion.section
         className="space-y-4 text-center py-10 rounded-xl"
         initial="hidden"
@@ -186,25 +281,23 @@ const HomePage = () => {
       >
         <h2 className="text-2xl font-bold">Genres</h2>
         <div className="flex flex-wrap justify-center gap-4 mt-4">
-          {["Action", "Drama", "Comedy", "Horror", "Sci-Fi", "Romance"].map(
-            (genre) => (
-              <motion.span
-                key={genre}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.5 }}
-                whileHover={{ scale: 1.1 }}
-                className="px-4 py-2 bg-primary text-white rounded-full shadow-lg cursor-pointer transition-transform"
-              >
-                {genre}
-              </motion.span>
-            )
-          )}
+          {genres.map((genre) => (
+            <motion.span
+              key={genre}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.5 }}
+              whileHover={{ scale: 1.1 }}
+              className="px-4 py-2 bg-primary text-white rounded-full shadow-lg cursor-pointer transition-transform"
+            >
+              {genre}
+            </motion.span>
+          ))}
         </div>
       </motion.section>
 
-      {/* About Section */}
+      {/* -------------------- About Section -------------------- */}
       <motion.section
         className="py-10 px-6 text-center bg-linear-to-r from-pink-500 to-pink-700 text-white rounded-xl space-y-4 shadow-lg"
         initial="hidden"
