@@ -16,7 +16,7 @@ const MovieCard = ({ movie }) => {
         <p>🎭 Genre: {genre}</p>
         <p>📅 Year: {releaseYear}</p>
         <p className="text-yellow-500 font-medium">⭐ Rating: {rating}</p>
-        <Link to={`/movie/${_id}`}>
+        <Link to={`/movies/${_id}`}>
           <button className="mt-3 bg-primary w-full text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors">
             Details
           </button>

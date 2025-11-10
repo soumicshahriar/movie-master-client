@@ -85,7 +85,7 @@ const MovieDetails = () => {
         <div className="mt-4 flex gap-4">
           <button
             className="w-1/2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            onClick={() => navigate(`/edit-movie/${movie._id}`)}
+            onClick={() => navigate(`/movies/update/${movie._id}`)}
           >
             Edit
           </button>

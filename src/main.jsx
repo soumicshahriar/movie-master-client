@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         Component: AllMovies,
       },
       {
-        path: "my-collection",
+        path: "movies/my-collection",
         element: (
           <PrivateRoute>
             <MyCollections></MyCollections>
@@ -50,12 +50,16 @@ const router = createBrowserRouter([
       // },
 
       {
-        path: "/movie/:id",
+        path: "/movies/:id",
         element: <MovieDetails />,
       },
       {
-        path: "/edit-movie/:id",
-        element: <UpdateMovie></UpdateMovie>,
+        path: "/movies/update/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateMovie></UpdateMovie>
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
           fetch(`http://localhost:3000/movies/${params.id}`),
       },

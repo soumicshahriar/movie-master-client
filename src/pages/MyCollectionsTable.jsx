@@ -56,7 +56,7 @@ const MyCollectionsTable = ({ movie }) => {
       <td>
         <div className="flex gap-3 justify-center">
           <Link
-            to={`/edit-movie/${_id}`}
+            to={`/movies/update/${_id}`}
             className="btn btn-sm bg-blue-600 hover:bg-blue-700 text-white"
           >
             <FaEdit />

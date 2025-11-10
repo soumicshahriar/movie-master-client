@@ -10,10 +10,10 @@
 
 /* ✅ Keep your custom styles inside @layer utilities */
 @layer utilities {
-  .active {
+  /* .active {
     border-bottom: 2px solid #c94a9a;
     background-color: transparent;
-  }
+  } */
 
   /* === Swiper Custom Styling === */
   .swiper-button-next,

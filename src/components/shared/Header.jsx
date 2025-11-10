@@ -34,6 +34,7 @@ const Header = () => {
       </li>
       <li>
         <NavLink
+          end
           to="/movies"
           className={({ isActive }) =>
             isActive
@@ -46,7 +47,8 @@ const Header = () => {
       </li>
       <li>
         <NavLink
-          to="/my-collection"
+          end
+          to="/movies/my-collection"
           className={({ isActive }) =>
             isActive
               ? "text-primary font-semibold flex items-center gap-1"
@@ -58,6 +60,7 @@ const Header = () => {
       </li>
       <li>
         <NavLink
+          end
           to="/movies/add"
           className={({ isActive }) =>
             isActive
