@@ -23,8 +23,12 @@ const MyCollections = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
   };
 
+  const handleDeleteFromUI = (id) => {
+    setMovies((prev) => prev.filter((movie) => movie._id !== id));
+  };
+
   return (
-    <div className=" max-w-11/12 py-8 mx-auto">
+    <div className=" max-w-11/12 py-8 mx-auto ">
       {/* Header Section */}
       <div className="text-center mb-10">
         <h1 className="text-xl md:text-4xl font-extrabold text-primary mb-2 flex justify-center items-center gap-2">
@@ -40,7 +44,7 @@ const MyCollections = () => {
 
       {/* Movie Table */}
       <motion.div
-        className="overflow-x-auto w-full bg-base-200 rounded-2xl shadow-lg border border-primary/20"
+        className="overflow-x-auto w-full bg-base-200 rounded-2xl shadow-lg border border-primary/20 max-h-screen  overflow-y-auto"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.2 }}
@@ -71,6 +75,7 @@ const MyCollections = () => {
                   movie={movie}
                   motionComponent={motion} // Pass motion to table rows for animation
                   icons={{ FaTrashAlt, FaEdit }} // Pass icons for actions
+                  onDelete={handleDeleteFromUI}
                 />
               ))
             ) : (

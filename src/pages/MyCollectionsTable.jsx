@@ -1,8 +1,9 @@
 import React from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 
-const MyCollectionsTable = ({ movie }) => {
+const MyCollectionsTable = ({ movie, onDelete }) => {
   const {
     _id,
     posterUrl,
@@ -18,20 +19,46 @@ const MyCollectionsTable = ({ movie }) => {
     plotSummary,
   } = movie || {};
 
-  const handleDelete = (id) => {
-    if (confirm("Are you sure you want to delete this movie?")) {
-      fetch(`http://localhost:3000/movies/${id}`, { method: "DELETE" })
-        .then((res) => res.json())
-        .then(() => {
-          alert("Movie deleted successfully!");
-          window.location.reload();
-        })
-        .catch((err) => console.error("Delete failed:", err));
-    }
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/movies/${_id}`, { method: "DELETE" })
+          .then((res) => res.json())
+          .then(() => {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "🎉 Movie deleted successfully!",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+
+            // Call parent callback to remove the movie from state
+            onDelete(_id);
+          })
+          .catch((err) => {
+            console.error("Delete failed:", err);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+            });
+          });
+      }
+    });
   };
 
   return (
-    <tr className="hover:bg-base-300 transition-all duration-200">
+    <tr className="hover:bg-base-300 transition-all duration-200 ">
       <td>
         <img
           src={posterUrl}

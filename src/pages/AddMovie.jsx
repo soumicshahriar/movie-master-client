@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import { MdCategory, MdOutlineDateRange, MdOutlineEmail } from "react-icons/md";
 import { BiCameraMovie } from "react-icons/bi";
+import Swal from "sweetalert2";
 
 const AddMovie = () => {
   const { user } = useContext(AuthContext);
@@ -39,11 +40,25 @@ const AddMovie = () => {
 
     try {
       await axios.post("http://localhost:3000/movies/add", movieData);
-      alert("🎉 Movie added successfully!");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "🎉 Movie added successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      //
       form.reset();
     } catch (error) {
       console.error(error);
-      alert("❌ Failed to add movie. Please try again.");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "❌ Failed to add movie. Please try again.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } finally {
       setLoading(false);
     }
