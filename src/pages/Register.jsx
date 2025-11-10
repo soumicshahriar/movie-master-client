@@ -2,12 +2,15 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // 👁️ toggle password visibility
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -42,10 +45,23 @@ const Register = () => {
 
       setSuccess("User created successfully!");
       form.reset();
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Registration successful!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       navigate("/"); // Redirect after successful registration
     } catch (err) {
       console.error(err);
-      setError("Registration failed! Email may already exist.");
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: "Registration failed! Email may already exist.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
@@ -66,6 +82,7 @@ const Register = () => {
               className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-0"
             />
           </div>
+
           <div>
             <label className="block mb-1 font-medium">Email</label>
             <input
@@ -75,6 +92,7 @@ const Register = () => {
               className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-0"
             />
           </div>
+
           <div>
             <label className="block mb-1 font-medium">Photo URL</label>
             <input
@@ -83,15 +101,27 @@ const Register = () => {
               className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-0"
             />
           </div>
+
+          {/* Password field with eye icon 👁️ */}
           <div>
             <label className="block mb-1 font-medium">Password</label>
-            <input
-              type="password"
-              name="password"
-              required
-              className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-0"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                required
+                className="w-full border rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-0"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-primary"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
+
           {success && (
             <p className="text-green-500 text-sm text-center">{success}</p>
           )}
