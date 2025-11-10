@@ -13,10 +13,12 @@ import {
 } from "react-icons/fa";
 
 const Header = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { user, dbUser, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  console.log(dbUser);
 
   const links = (
     <>
@@ -76,7 +78,10 @@ const Header = () => {
 
   const handleLogOut = () => {
     logOut()
-      .then(() => navigate("/"))
+      .then(() => {
+        navigate("/");
+        setShowDropdown(false);
+      })
       .catch(() => {});
   };
 
@@ -131,9 +136,33 @@ const Header = () => {
                   transition={{ type: "tween", duration: 0.3 }}
                   onAnimationStart={() => setIsAnimating(true)}
                   onAnimationComplete={() => setIsAnimating(false)}
-                  className="fixed top-18 left-0 h-screen w-64 bg-base-100 shadow-lg p-6 flex flex-col space-y-4 z-50"
+                  className="fixed top-18 left-0 h-screen w-64 bg-base-100 shadow-lg p-6 flex flex-col space-y-4 z-50 overflow-y-auto"
                 >
+                  {user && (
+                    <div className="flex flex-col items-center border-b-2 border-b-primary pb-4 mb-3">
+                      <div className="avatar mb-2">
+                        <div className="w-16 rounded-full border-4 border-primary">
+                          <img
+                            src={
+                              dbUser?.photo ||
+                              user?.photoURL ||
+                              "https://i.ibb.co/MBtjqXQ/default-avatar.png"
+                            }
+                            alt="User Avatar"
+                          />
+                        </div>
+                      </div>
+                      <p className="font-semibold text-primary text-center">
+                        {dbUser?.name || user?.displayName || "User"}
+                      </p>
+                      <p className="text-xs text-gray-500 text-center">
+                        {dbUser?.email || user?.email}
+                      </p>
+                    </div>
+                  )}
+
                   {links}
+
                   {user ? (
                     <li>
                       <button
@@ -178,14 +207,53 @@ const Header = () => {
       </div>
 
       {/* End */}
-      <div className="navbar-end hidden md:flex">
+      <div className="navbar-end hidden md:flex relative">
         {user ? (
-          <button
-            onClick={handleLogOut}
-            className="btn bg-primary hover:bg-pink-600 flex items-center gap-2"
-          >
-            <FaSignOutAlt /> Logout
-          </button>
+          <div className="relative">
+            {/* Profile Avatar */}
+            <button
+              onClick={() => setShowDropdown((prev) => !prev)}
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full border-4 border-primary">
+                <img
+                  src={
+                    dbUser?.photo ||
+                    user?.photoURL ||
+                    "https://i.ibb.co/MBtjqXQ/default-avatar.png"
+                  }
+                  alt="User Avatar"
+                />
+              </div>
+            </button>
+
+            {/* Dropdown Menu */}
+            <AnimatePresence>
+              {showDropdown && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute right-0 mt-2 w-52 bg-base-100 shadow-lg rounded-xl p-3 z-50"
+                >
+                  <p className="px-3 py-1 text-sm font-semibold text-primary border-b mb-2">
+                    {dbUser?.name || user?.displayName || "User"}
+                  </p>
+                  <p className="px-3 py-1 text-xs text-gray-500 mb-2">
+                    {dbUser?.email || user?.email}
+                  </p>
+
+                  <button
+                    onClick={handleLogOut}
+                    className="w-full text-left flex items-center gap-2 px-3 py-2 hover:bg-primary cursor-pointer rounded-md"
+                  >
+                    <FaSignOutAlt /> Logout
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         ) : (
           <Link
             to="/login"

@@ -9,11 +9,13 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
+import axios from "axios";
 
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [dbUser, setDbUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // create user
@@ -40,19 +42,30 @@ const AuthProvider = ({ children }) => {
 
   // --- Observe user state ---
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      //   console.log("Current User:", currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      if (currentUser?.email) {
+        try {
+          const res = await axios.get(
+            `http://localhost:3000/users/${currentUser.email}`
+          );
+          setDbUser(res.data);
+        } catch (err) {
+          console.error("Error fetching user from DB:", err);
+        }
+      } else {
+        setDbUser(null);
+      }
       setLoading(false);
     });
 
-    // Cleanup observer when component unmounts
     return () => unsubscribe();
   }, []);
 
   // --- Context value ---
   const authInfo = {
     user,
+    dbUser,
     loading,
     createUser,
     signInUser,
