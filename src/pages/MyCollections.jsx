@@ -32,8 +32,8 @@ const MyCollections = () => {
         </h1>
 
         <div className="mt-3">
-          <span className="bg-primary/10 text-primary px-4 py-1 rounded-full font-semibold text-sm md:text-base">
-            Total Movies: {movies.length}
+          <span className="bg-primary/10  px-4 py-1 rounded-full font-semibold text-sm md:text-base">
+            Total Movies: <span className="text-primary">{movies.length}</span>
           </span>
         </div>
       </motion.div>

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FaGoogle } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
@@ -7,7 +7,10 @@ import axios from "axios";
 const Login = () => {
   const { signInUser, googleLogin } = useContext(AuthContext);
   const [error, setError] = useState("");
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const from = location?.state || "/";
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -37,7 +40,7 @@ const Login = () => {
         photo: user.photoURL,
       });
 
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (err) {
       console.error(err);
       setError("Google login failed!");

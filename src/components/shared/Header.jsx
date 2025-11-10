@@ -46,7 +46,7 @@ const Header = () => {
       </li>
       <li>
         <NavLink
-          to="/my-collections"
+          to="/my-collection"
           className={({ isActive }) =>
             isActive
               ? "text-primary font-semibold flex items-center gap-1"
@@ -58,7 +58,7 @@ const Header = () => {
       </li>
       <li>
         <NavLink
-          to="/add-movie"
+          to="/movies/add"
           className={({ isActive }) =>
             isActive
               ? "text-primary font-semibold flex items-center gap-1"

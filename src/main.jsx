@@ -12,6 +12,7 @@ import Register from "./pages/Register.jsx";
 import AddMovie from "./pages/AddMovie.jsx";
 import MovieDetails from "./pages/MovieDetails.jsx";
 import UpdateMovie from "./pages/UpdateMovie.jsx";
+import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,13 +29,25 @@ const router = createBrowserRouter([
         Component: AllMovies,
       },
       {
-        path: "my-collections",
-        Component: MyCollections,
+        path: "my-collection",
+        element: (
+          <PrivateRoute>
+            <MyCollections></MyCollections>
+          </PrivateRoute>
+        ),
       },
       {
-        path: "add-movie",
-        Component: AddMovie,
+        path: "movies/add",
+        element: (
+          <PrivateRoute>
+            <AddMovie></AddMovie>
+          </PrivateRoute>
+        ),
       },
+      // {
+      //   path: "add-movie",
+      //   element:<PrivateRoute><AddMovie></AddMovie></PrivateRoute>
+      // },
 
       {
         path: "/movie/:id",
