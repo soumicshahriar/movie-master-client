@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { FaGoogle } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 const Login = () => {
   const { signInUser, googleLogin } = useContext(AuthContext);
@@ -26,10 +27,19 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      await googleLogin();
+      const result = await googleLogin();
+      const user = result.user;
+
+      // Create or update user in your backend
+      await axios.post("http://localhost:3000/users", {
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      });
+
       navigate("/");
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setError("Google login failed!");
     }
   };

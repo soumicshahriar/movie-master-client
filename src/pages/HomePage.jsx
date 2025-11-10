@@ -13,7 +13,9 @@ const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [topRated, setTopRated] = useState([]);
   const [recentlyAdded, setRecentlyAdded] = useState([]);
+  // const [stats, setStats] = useState(0);
   const [stats, setStats] = useState({ totalMovies: 0, totalUsers: 0 });
+  // console.log(stats);
 
   useEffect(() => {
     // Fetch all movies
@@ -32,9 +34,10 @@ const HomePage = () => {
       .then((res) => setRecentlyAdded(res.data));
 
     // Fetch stats
-    axios
-      .get("http://localhost:3000/movies/stats")
-      .then((res) => setStats(res.data));
+    axios.get("http://localhost:3000/stats").then((res) => {
+      console.log(res.data);
+      setStats(res.data);
+    });
   }, []);
 
   console.log(movies, recentlyAdded, topRated);
@@ -83,21 +86,21 @@ const HomePage = () => {
 
       {/* Statistics Section */}
       <section className="text-center py-10  border border-primary rounded-2xl text-white space-y-4">
-        <h2 className="text-3xl font-bold">Platform Statistics</h2>
-        <div className="flex justify-center space-x-10 text-xl font-medium">
+        <h2 className=" text-xl md:text-3xl font-bold">Platform Statistics</h2>
+        <div className=" md:flex justify-center md:space-x-10 text-xl font-medium">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5 }}
           >
-            🎬 Movies: {stats.totalMovies}
+            🎬 Movies: <span className="text-primary">{stats.totalMovies}</span>
           </motion.div>
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            👥 Users: {stats.totalUsers}
+            👥 Users: <span className="text-primary">{stats.totalUsers}</span>
           </motion.div>
         </div>
       </section>
