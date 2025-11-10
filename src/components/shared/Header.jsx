@@ -11,6 +11,7 @@ import {
   FaFolderOpen,
   FaPlusCircle,
 } from "react-icons/fa";
+import ThemeToggle from "../ThemeToggle";
 
 const Header = () => {
   const { user, dbUser, logOut } = useContext(AuthContext);
@@ -208,6 +209,7 @@ const Header = () => {
 
       {/* End */}
       <div className="navbar-end hidden md:flex relative">
+        <ThemeToggle></ThemeToggle>
         {user ? (
           <div className="relative">
             {/* Profile Avatar */}

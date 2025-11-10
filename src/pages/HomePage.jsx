@@ -124,21 +124,25 @@ const HomePage = () => {
             </button>
           ))}
         </div>
-        <div className="flex justify-center gap-2">
-          <input
-            type="number"
-            placeholder="Min Rating"
-            value={minRating}
-            onChange={(e) => setMinRating(e.target.value)}
-            className="border p-1 rounded"
-          />
-          <input
-            type="number"
-            placeholder="Max Rating"
-            value={maxRating}
-            onChange={(e) => setMaxRating(e.target.value)}
-            className="border p-1 rounded"
-          />
+        <div className=" md:flex justify-center gap-2 space-y-2">
+          <div>
+            <input
+              type="number"
+              placeholder="Min Rating"
+              value={minRating}
+              onChange={(e) => setMinRating(e.target.value)}
+              className="border p-1 rounded"
+            />
+          </div>
+          <div>
+            <input
+              type="number"
+              placeholder="Max Rating"
+              value={maxRating}
+              onChange={(e) => setMaxRating(e.target.value)}
+              className="border p-1 rounded"
+            />
+          </div>
         </div>
       </motion.section>
 
