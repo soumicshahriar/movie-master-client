@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useLoaderData, useNavigate, useParams } from "react-router";
+import Swal from "sweetalert2";
 
 const UpdateMovie = () => {
   const movie = useLoaderData();
@@ -49,13 +50,25 @@ const UpdateMovie = () => {
         `http://localhost:3000/movies/update/${movie._id}`,
         movieData
       );
-      alert("Movie Updated successfully!");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "🎉 Movie Updated successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       navigate("/movies");
 
       //   e.target.reset();
     } catch (error) {
       console.error(error);
-      alert("Failed to add movie.");
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "🎉 Failed To Update Movie!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } finally {
       setLoading(false);
     }

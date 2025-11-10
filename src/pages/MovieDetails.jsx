@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -24,16 +25,43 @@ const MovieDetails = () => {
       });
   }, [id]);
 
-  const handleDelete = () => {
-    if (window.confirm("Are you sure you want to delete this movie?")) {
-      axios
-        .delete(`http://localhost:3000/movies/${id}`)
-        .then(() => {
-          alert("Movie deleted successfully");
-          navigate("/"); // Redirect to home page after deletion
-        })
-        .catch((err) => console.error(err));
-    }
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This movie will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33", // red
+      cancelButtonColor: "#3085d6", // blue
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://localhost:3000/movies/${id}`)
+          .then(() => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "🎉 Movie deleted successfully!",
+              icon: "success",
+              background: "#ffe4e6", // soft pink background
+              color: "#7f1d1d", // deep red text
+              confirmButtonColor: "#ec4899", // pink button
+            }).then(() => {
+              navigate("/"); // Redirect to homepage after deletion
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+            Swal.fire({
+              title: "Error!",
+              text: "Something went wrong while deleting.",
+              icon: "error",
+              confirmButtonColor: "#ef4444",
+            });
+          });
+      }
+    });
   };
 
   if (loading) return <div>Loading...</div>;
