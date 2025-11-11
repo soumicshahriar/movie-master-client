@@ -5,6 +5,7 @@ import Loader from "../components/Loader";
 import Swal from "sweetalert2";
 import { FaTrashAlt, FaInfoCircle } from "react-icons/fa";
 import { motion } from "motion/react";
+import { useNavigate } from "react-router";
 
 const WatchList = () => {
   const { user, loading } = useContext(AuthContext);
@@ -60,14 +61,6 @@ const WatchList = () => {
   };
 
   if (loading) return <Loader />;
-
-  if (!user)
-    return (
-      <div className="text-center text-lg mt-10 text-primary">
-        Please log in to view your WatchList.
-      </div>
-    );
-
   // Animation variants
   const sectionVariants = {
     hidden: { opacity: 0, y: 40 },
