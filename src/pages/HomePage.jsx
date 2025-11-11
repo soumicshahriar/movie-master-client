@@ -101,7 +101,8 @@ const HomePage = () => {
         variants={sectionVariants}
       >
         <h3 className="text-xl font-bold mb-2">
-          Filter <span className="text-primary">Movies</span>
+          Filter{" "}
+          <span className="text-primary">Movies - ({movies.length}) </span>
         </h3>
         <div className="flex flex-wrap justify-center gap-2 mb-4">
           {genres.map((genre) => (
@@ -169,7 +170,7 @@ const HomePage = () => {
           }}
           className="h-full w-full"
         >
-          {movies.slice(0, 5).map((movie) => (
+          {movies.slice(0, 20).map((movie) => (
             <SwiperSlide key={movie._id}>
               <motion.div
                 whileHover={{ scale: 1.05 }}

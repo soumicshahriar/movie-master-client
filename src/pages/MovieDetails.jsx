@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
+import { FaHeart, FaPen } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -24,6 +26,28 @@ const MovieDetails = () => {
         setLoading(false);
       });
   }, [id]);
+
+  const handleAddToWatchList = async (movieId, userEmail) => {
+    try {
+      await axios.post("http://localhost:3000/users/watch-list", {
+        userEmail,
+        movieId,
+      });
+      Swal.fire({
+        title: "Added!",
+        text: "🎥 Movie added to your watchList.",
+        icon: "success",
+        confirmButtonColor: "#6366f1",
+      });
+    } catch (err) {
+      Swal.fire({
+        title: "Already added!",
+        text: "This movie is already in your watchList.",
+        icon: "info",
+        confirmButtonColor: "#60a5fa",
+      });
+    }
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -112,18 +136,27 @@ const MovieDetails = () => {
       {isOwner && (
         <div className="mt-4 flex gap-4">
           <button
-            className="w-1/2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="w-1/2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center gap-2"
             onClick={() => navigate(`/movies/update/${movie._id}`)}
           >
-            Edit
+            <FaPen></FaPen> Edit
           </button>
           <button
-            className="px-4 py-2 w-1/2 bg-red-500 text-white rounded hover:bg-red-600"
+            className="px-4 py-2 w-1/2 bg-red-500 text-white rounded hover:bg-red-600 flex items-center justify-center gap-2"
             onClick={handleDelete}
           >
-            Delete
+            <MdDeleteOutline /> Delete
           </button>
         </div>
+      )}
+
+      {user && (
+        <button
+          onClick={() => handleAddToWatchList(movie._id, user.email)}
+          className="mt-4 w-full bg-primary text-white py-2 rounded-lg hover:bg-pink-500 flex  items-center justify-center gap-2"
+        >
+          <FaHeart></FaHeart> Add to WatchList
+        </button>
       )}
     </div>
   );

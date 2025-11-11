@@ -10,6 +10,7 @@ import {
   FaFilm,
   FaFolderOpen,
   FaPlusCircle,
+  FaRegEye,
 } from "react-icons/fa";
 import ThemeToggle from "../ThemeToggle";
 
@@ -72,6 +73,19 @@ const Header = () => {
           }
         >
           <FaPlusCircle /> Add Movie
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          end
+          to="/watch-list"
+          className={({ isActive }) =>
+            isActive
+              ? "text-primary font-semibold flex items-center gap-1"
+              : "text-gray-400 flex items-center gap-1"
+          }
+        >
+         <FaRegEye></FaRegEye> WatchList
         </NavLink>
       </li>
     </>

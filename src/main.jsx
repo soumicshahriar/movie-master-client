@@ -14,6 +14,7 @@ import MovieDetails from "./pages/MovieDetails.jsx";
 import UpdateMovie from "./pages/UpdateMovie.jsx";
 import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
+import WatchList from "./pages/Watchlist.jsx";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
           fetch(`http://localhost:3000/movies/${params.id}`),
       },
       {
+        path: "/watch-list",
+        element: <WatchList></WatchList>,
+      },
+      {
         path: "login",
         Component: Login,
       },
@@ -73,9 +78,9 @@ const router = createBrowserRouter([
         Component: Register,
       },
       {
-        path:'*',
-        Component: NotFoundPage
-      }
+        path: "*",
+        Component: NotFoundPage,
+      },
     ],
   },
 ]);

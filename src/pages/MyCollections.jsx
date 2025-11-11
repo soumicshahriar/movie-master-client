@@ -31,13 +31,14 @@ const MyCollections = () => {
     <div className=" max-w-11/12 py-8 mx-auto ">
       {/* Header Section */}
       <div className="text-center mb-10">
-        <h1 className="text-xl md:text-4xl font-extrabold text-primary mb-2 flex justify-center items-center gap-2">
-          <FaFilm /> My Movie Collections
+        <h1 className="text-xl md:text-4xl font-extrabold mb-2 flex justify-center items-center gap-2">
+          <FaFilm /> My Movie <span className="text-primary">Collections</span>
         </h1>
 
         <div className="mt-3">
           <span className="bg-primary/10  px-4 py-1 rounded-full font-semibold text-sm md:text-base">
-            Total Movies: <span className="text-primary">{movies.length}</span>
+            Total Movies -{" "}
+            <span className="text-primary">({movies.length})</span>
           </span>
         </div>
       </div>
