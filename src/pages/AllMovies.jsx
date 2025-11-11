@@ -9,32 +9,19 @@ const AllMovies = () => {
   const allMovies = useLoaderData();
   const { loading } = useContext(AuthContext);
 
-  if (loading) {
-    return <Loader />;
-  }
-
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
-
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
-
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold text-center mb-8">
-        All <span className="text-primary">Movies</span>
+      <h2 className="text-xl font-bold text-center mb-8">
+        All <span className="text-primary">Movies - ({allMovies.length})</span>
       </h2>
-      <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
-        variants={sectionVariants}
-      >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {allMovies?.map((movie, i) => (
           <motion.div
             key={movie._id}
@@ -47,7 +34,7 @@ const AllMovies = () => {
             <MovieCard movie={movie} index={i} />
           </motion.div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };

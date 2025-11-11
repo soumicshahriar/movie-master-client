@@ -118,7 +118,7 @@ const HomePage = () => {
               className={`px-4 py-2 rounded ${
                 selectedGenres.includes(genre)
                   ? "bg-primary text-white shadow-lg shadow-primary"
-                  : "border border-primary"
+                  : "border-2 border-primary rounded"
               }`}
             >
               {genre}
@@ -194,10 +194,10 @@ const HomePage = () => {
         viewport={{ once: false, amount: 0.2 }}
         variants={sectionVariants}
       >
-        <h2 className=" text-xl md:text-3xl font-bold">
+        <h2 className=" text-xl font-bold">
           Platform <span className="text-primary">Statistics</span>
         </h2>
-        <div className="md:flex justify-center md:space-x-10 text-xl font-medium">
+        <div className="md:flex justify-center md:space-x-10  font-medium">
           <motion.div
             className="flex items-center gap-2 justify-center"
             initial={{ scale: 0 }}
@@ -205,7 +205,7 @@ const HomePage = () => {
             viewport={{ once: false }}
             transition={{ duration: 0.5 }}
           >
-            <FaFilm className="text-primary text-2xl" /> Movies:{" "}
+            <FaFilm className="text-primary " /> Movies:{" "}
             <span className="text-primary">{stats.totalMovies}</span>
           </motion.div>
           <motion.div
@@ -215,7 +215,7 @@ const HomePage = () => {
             viewport={{ once: false }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <FaUsers className="text-primary text-2xl" /> Users:{" "}
+            <FaUsers className="text-primary" /> Users:{" "}
             <span className="text-primary">{stats.totalUsers}</span>
           </motion.div>
         </div>
@@ -229,7 +229,7 @@ const HomePage = () => {
         viewport={{ once: false, amount: 0.02 }}
         variants={sectionVariants}
       >
-        <h2 className=" text-xl md:text-3xl font-bold text-center">
+        <h2 className=" text-xl font-bold text-center">
           <FaStar className="inline text-yellow-400 mr-2" /> Top Rated{" "}
           <span className="text-primary">Movies</span>
         </h2>
@@ -257,7 +257,7 @@ const HomePage = () => {
         viewport={{ once: false, amount: 0.02 }}
         variants={sectionVariants}
       >
-        <h2 className="text-xl md:text-3xl font-bold text-center ">
+        <h2 className="text-xl font-bold text-center ">
           Recently <span className="text-primary">Added</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -284,7 +284,7 @@ const HomePage = () => {
         viewport={{ once: false, amount: 0.01 }}
         variants={sectionVariants}
       >
-        <h2 className="text-2xl font-bold">Genres</h2>
+        <h2 className="text-xl font-bold">Genres</h2>
         <div className="flex flex-wrap justify-center gap-4 mt-4">
           {genres.map((genre) => (
             <motion.span

@@ -80,7 +80,7 @@ const WatchList = () => {
       variants={sectionVariants}
       className="max-w-6xl mx-auto p-6"
     >
-      <h1 className="text-3xl font-bold mb-6 text-center ">
+      <h1 className="text-xl font-bold mb-6 text-center ">
         🎬 My{" "}
         <span className="text-primary">WatchList - ({movies.length})</span>
       </h1>

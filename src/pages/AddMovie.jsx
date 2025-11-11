@@ -80,7 +80,7 @@ const AddMovie = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <h2 className="text-xl md:text-4xl font-bold mb-8 text-center">
+      <h2 className="text-xl font-bold mb-8 text-center">
         🎬 Add a <span className="text-primary">New Movie</span>
       </h2>
 

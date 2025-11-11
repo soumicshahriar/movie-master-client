@@ -31,7 +31,7 @@ const MyCollections = () => {
     <div className=" max-w-11/12 py-8 mx-auto ">
       {/* Header Section */}
       <div className="text-center mb-10">
-        <h1 className="text-xl md:text-4xl font-extrabold mb-2 flex justify-center items-center gap-2">
+        <h1 className="text-xl font-bold mb-2 flex justify-center items-center gap-2">
           <FaFilm /> My Movie <span className="text-primary">Collections</span>
         </h1>
 
