@@ -118,7 +118,7 @@ const WatchList = () => {
                   {/* Details Button */}
                   <button
                     onClick={() => openDetailsModal(movie)}
-                    className="flex-1 bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2"
+                    className="flex-1 bg-primary text-white px-3 py-2 rounded-lg hover:bg-pink-500 flex items-center justify-center gap-2"
                   >
                     <FaInfoCircle /> Details
                   </button>
