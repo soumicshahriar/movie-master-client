@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import {
   FaFilm,
@@ -13,10 +12,12 @@ import {
 import { MdCategory, MdOutlineDateRange, MdOutlineEmail } from "react-icons/md";
 import { BiCameraMovie } from "react-icons/bi";
 import Swal from "sweetalert2";
+import useAxios from "../hooks/useAxios";
 
 const AddMovie = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const axiosInstance = useAxios();
 
   const genres = [
     "Action",
@@ -49,9 +50,9 @@ const AddMovie = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/movies/add", movieData);
+      await axiosInstance.post("/movies/add", movieData);
       Swal.fire({
-        position: "top-end",
+        position: "top-center",
         icon: "success",
         title: "🎉 Movie added successfully!",
         showConfirmButton: false,
@@ -62,7 +63,7 @@ const AddMovie = () => {
     } catch (error) {
       console.error(error);
       Swal.fire({
-        position: "top-end",
+        position: "top-center",
         icon: "error",
         title: "❌ Failed to add movie. Please try again.",
         showConfirmButton: false,

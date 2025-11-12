@@ -1,19 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import MyCollectionsTable from "./MyCollectionsTable";
 import { motion } from "framer-motion";
 import { FaFilm, FaTrashAlt, FaEdit } from "react-icons/fa";
+import useAxios from "../hooks/useAxios";
 
 const MyCollections = () => {
+  const axiosInstance = useAxios();
   const [movies, setMovies] = useState([]);
+
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
     if (!user?.email) return;
 
-    axios
-      .get(`http://localhost:3000/movies/my-collection?email=${user.email}`)
+    axiosInstance
+      .get(`/movies/my-collection?email=${user.email}`)
       .then((res) => setMovies(res.data))
       .catch((err) => console.error("Error fetching user movies:", err));
   }, [user]);

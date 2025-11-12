@@ -1,21 +1,31 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import MovieCard from "./MovieCard";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/Loader";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
+import useAxios from "../hooks/useAxios";
 
 const AllMovies = () => {
-  const allMovies = useLoaderData();
+  const [allMovies, setAllMovies] = useState([]);
   const { loading } = useContext(AuthContext);
+  const axiosInstance = useAxios();
+
+  useEffect(() => {
+    axiosInstance.get("/movies").then((data) => {
+      setAllMovies(data.data);
+    });
+  }, [axiosInstance]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
-  if (loading) {
-    return <Loader />;
-  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <h2 className="text-xl font-bold text-center mb-8">

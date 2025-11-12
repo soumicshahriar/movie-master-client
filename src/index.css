@@ -6,6 +6,7 @@
   name: "night";
   default: true;
   --color-primary: #c71585;
+  --color-secondary: #db2777;
 }
 
 /* ✅ Keep your custom styles inside @layer utilities */

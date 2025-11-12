@@ -1,9 +1,10 @@
-import React from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
+import useAxios from "../hooks/useAxios";
 
 const MyCollectionsTable = ({ movie, onDelete }) => {
+  const axiosInstance = useAxios();
   const {
     _id,
     posterUrl,
@@ -19,7 +20,7 @@ const MyCollectionsTable = ({ movie, onDelete }) => {
     plotSummary,
   } = movie || {};
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -29,30 +30,29 @@ const MyCollectionsTable = ({ movie, onDelete }) => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "Cancel",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/movies/${_id}`, { method: "DELETE" })
-          .then((res) => res.json())
-          .then(() => {
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "🎉 Movie deleted successfully!",
-              showConfirmButton: false,
-              timer: 1500,
-            });
+        try {
+          await axiosInstance.delete(`/movies/${_id}`);
 
-            // Call parent callback to remove the movie from state
-            onDelete(_id);
-          })
-          .catch((err) => {
-            console.error("Delete failed:", err);
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Something went wrong!",
-            });
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "🎉 Movie deleted successfully!",
+            showConfirmButton: false,
+            timer: 1500,
           });
+
+          // Update parent state after deletion
+          onDelete(_id);
+        } catch (error) {
+          console.error("Delete failed:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+          });
+        }
       }
     });
   };

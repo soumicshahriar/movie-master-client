@@ -14,7 +14,7 @@ import MovieDetails from "./pages/MovieDetails.jsx";
 import UpdateMovie from "./pages/UpdateMovie.jsx";
 import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-import WatchList from "./pages/Watchlist.jsx";
+import WatchList from "./pages/WatchList.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +27,6 @@ const router = createBrowserRouter([
       },
       {
         path: "movies",
-        loader: () => fetch("http://localhost:3000/movies"),
         Component: AllMovies,
       },
       {
@@ -46,10 +45,6 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      // {
-      //   path: "add-movie",
-      //   element:<PrivateRoute><AddMovie></AddMovie></PrivateRoute>
-      // },
 
       {
         path: "/movies/:id",
@@ -63,7 +58,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/movies/${params.id}`),
+          fetch(
+            `https://movie-master-server-one.vercel.app/movies/${params.id}`
+          ),
       },
       {
         path: "/watch-list",

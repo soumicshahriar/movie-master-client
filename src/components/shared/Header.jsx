@@ -20,7 +20,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  console.log(dbUser);
+  // console.log(dbUser);
 
   const links = (
     <>

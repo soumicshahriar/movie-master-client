@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
-import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 import { FaHeart, FaPen } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import useAxios from "../hooks/useAxios";
 
 const MovieDetails = () => {
+  const axiosInstance = useAxios();
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -15,8 +16,8 @@ const MovieDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/movies/${id}`)
+    axiosInstance
+      .get(`/movies/${id}`)
       .then((res) => {
         setMovie(res.data);
         setLoading(false);
@@ -29,7 +30,7 @@ const MovieDetails = () => {
 
   const handleAddToWatchList = async (movieId, userEmail) => {
     try {
-      await axios.post("http://localhost:3000/users/watch-list", {
+      await axiosInstance.post("/users/watch-list", {
         userEmail,
         movieId,
       });
@@ -40,6 +41,7 @@ const MovieDetails = () => {
         confirmButtonColor: "#6366f1",
       });
     } catch (err) {
+      console.error(err)
       Swal.fire({
         title: "Already added!",
         text: "This movie is already in your watchList.",
@@ -61,8 +63,8 @@ const MovieDetails = () => {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
-          .delete(`http://localhost:3000/movies/${id}`)
+        axiosInstance
+          .delete(`/movies/${id}`)
           .then(() => {
             Swal.fire({
               title: "Deleted!",

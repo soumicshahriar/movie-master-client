@@ -9,11 +9,12 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
-import axios from "axios";
+import useAxios from "../hooks/useAxios";
 
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
+  const axiosInstance = useAxios();
   const [user, setUser] = useState(null);
   const [dbUser, setDbUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -46,9 +47,7 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       if (currentUser?.email) {
         try {
-          const res = await axios.get(
-            `http://localhost:3000/users/${currentUser.email}`
-          );
+          const res = await axiosInstance.get(`/users/${currentUser.email}`);
           setDbUser(res.data);
         } catch (err) {
           console.error("Error fetching user from DB:", err);
@@ -60,7 +59,7 @@ const AuthProvider = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [axiosInstance]);
 
   // --- Context value ---
   const authInfo = {

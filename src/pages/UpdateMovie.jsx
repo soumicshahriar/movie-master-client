@@ -1,10 +1,11 @@
-import axios from "axios";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import useAxios from "../hooks/useAxios";
 
 const UpdateMovie = () => {
+  const axiosInstance = useAxios();
   const movie = useLoaderData();
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
@@ -41,12 +42,9 @@ const UpdateMovie = () => {
     };
 
     try {
-      await axios.patch(
-        `http://localhost:3000/movies/update/${movie._id}`,
-        movieData
-      );
+      await axiosInstance.patch(`/movies/update/${movie._id}`, movieData);
       Swal.fire({
-        position: "top-end",
+        position: "top-center",
         icon: "success",
         title: "🎉 Movie Updated successfully!",
         showConfirmButton: false,
@@ -56,7 +54,7 @@ const UpdateMovie = () => {
     } catch (error) {
       console.error(error);
       Swal.fire({
-        position: "top-end",
+        position: "top-center",
         icon: "error",
         title: "❌ Failed To Update Movie!",
         showConfirmButton: false,

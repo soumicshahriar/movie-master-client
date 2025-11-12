@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/Loader";
 import Swal from "sweetalert2";
 import { FaTrashAlt, FaInfoCircle } from "react-icons/fa";
 import { motion } from "motion/react";
-import { useNavigate } from "react-router";
+
+import useAxios from "../hooks/useAxios";
 
 const WatchList = () => {
+  const axiosInstance = useAxios();
   const { user, loading } = useContext(AuthContext);
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -15,11 +16,11 @@ const WatchList = () => {
   // ✅ Fetch watch-list movies
   useEffect(() => {
     if (user) {
-      axios
-        .get(`http://localhost:3000/users/watch-list/${user.email}`)
+      axiosInstance
+        .get(`/users/watch-list/${user.email}`)
         .then(async (res) => {
           const moviePromises = res.data.map((item) =>
-            axios.get(`http://localhost:3000/movies/${item.movieId}`)
+            axiosInstance.get(`/movies/${item.movieId}`)
           );
           const movieResults = await Promise.all(moviePromises);
           setMovies(movieResults.map((r) => r.data));
@@ -27,7 +28,7 @@ const WatchList = () => {
         .catch((err) => console.error(err));
     }
   }, [user]);
-  console.log(movies);
+  // console.log(movies);
 
   // ✅ Remove movie from watchList
   const handleRemove = async (movie) => {
@@ -41,10 +42,8 @@ const WatchList = () => {
       confirmButtonText: "Yes, remove it",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
-          .delete(
-            `http://localhost:3000/users/watch-list/${movie._id}/${user.email}`
-          )
+        axiosInstance
+          .delete(`/users/watch-list/${movie._id}/${user.email}`)
           .then(() => {
             setMovies((prev) => prev.filter((m) => m._id !== movie._id));
             Swal.fire("Removed!", "Movie removed from watchList.", "success");

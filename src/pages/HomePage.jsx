@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
@@ -10,8 +9,10 @@ import MovieCard from "./MovieCard";
 import { FaUsers, FaFilm, FaStar } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/Loader";
+import useAxios from "../hooks/useAxios";
 
 const HomePage = () => {
+  const axiosInstance = useAxios();
   const { loading } = useContext(AuthContext);
 
   const [movies, setMovies] = useState([]);
@@ -32,7 +33,7 @@ const HomePage = () => {
       if (minRating) params.minRating = minRating;
       if (maxRating) params.maxRating = maxRating;
 
-      const res = await axios.get("http://localhost:3000/movies", { params });
+      const res = await axiosInstance.get("/movies", { params });
       setMovies(res.data);
     } catch (err) {
       console.error(err);
@@ -43,9 +44,9 @@ const HomePage = () => {
   const fetchOtherSections = async () => {
     try {
       const [top, recent, statRes] = await Promise.all([
-        axios.get("http://localhost:3000/movies/top-rated?limit=5"),
-        axios.get("http://localhost:3000/movies/recent?limit=6"),
-        axios.get("http://localhost:3000/stats"),
+        axiosInstance.get("/movies/top-rated?limit=5"),
+        axiosInstance.get("/movies/recent?limit=6"),
+        axiosInstance.get("/stats"),
       ]);
 
       setTopRated(top.data);
@@ -276,7 +277,7 @@ const HomePage = () => {
         </div>
       </motion.section>
 
-      {/* -------------------- Genres Section -------------------- */}
+      {/* -------------------- Genres Section Static -------------------- */}
       <motion.section
         className="space-y-4 text-center py-10 rounded-xl shadow-md shadow-primary"
         initial="hidden"
