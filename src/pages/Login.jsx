@@ -4,11 +4,12 @@ import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 const Login = () => {
   const { signInUser, googleLogin } = useContext(AuthContext);
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // 👁️ toggle state
+  const [showPassword, setShowPassword] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -23,12 +24,16 @@ const Login = () => {
     setError("");
     try {
       await signInUser(email, password);
-      Swal.fire({
+      toast("Login Successful", {
         position: "top-center",
-        icon: "success",
-        title: "Login Successful.",
-        showConfirmButton: false,
-        timer: 1500,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
       });
       navigate(from, { replace: true });
     } catch (err) {
@@ -97,7 +102,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full bg-pink-500 text-white py-2 rounded-md hover:bg-pink-600 transition"
+            className="w-full bg-pink-500 text-white py-2 rounded-md hover:bg-pink-600 transition cursor-pointer"
           >
             Login
           </button>
@@ -107,7 +112,7 @@ const Login = () => {
 
         <button
           onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center border py-2 rounded-md hover:border-2 hover:border-primary transition"
+          className="w-full flex items-center justify-center border py-2 rounded-md hover:border-2 hover:border-primary transition cursor-pointer"
         >
           <FaGoogle className="mr-2 text-pink-500" />
           Google Login
@@ -125,6 +130,7 @@ const Login = () => {
           </p>
         </div>
       </div>
+      <ToastContainer></ToastContainer>
     </div>
   );
 };

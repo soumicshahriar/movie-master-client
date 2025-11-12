@@ -1,16 +1,20 @@
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, googleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // 👁️ toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const location = useLocation();
+
+  const from = location?.state || "/";
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -54,14 +58,37 @@ const Register = () => {
       });
       navigate("/"); // Redirect after successful registration
     } catch (err) {
-      console.error(err);
-      Swal.fire({
+      toast("Registration failed! Email may already exist.", {
         position: "top-center",
-        icon: "error",
-        title: "Registration failed! Email may already exist.",
-        showConfirmButton: false,
-        timer: 1500,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
       });
+      console.error(err);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await googleLogin();
+      const user = result.user;
+
+      // Create or update user in your backend
+      await axios.post("http://localhost:3000/users", {
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      });
+
+      navigate(from, { replace: true });
+    } catch (err) {
+      console.error(err);
+      setError("Google login failed!");
     }
   };
 
@@ -129,14 +156,20 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full bg-pink-500 text-white py-2 rounded-md hover:bg-pink-600 transition"
+            className="w-full bg-pink-500 text-white py-2 rounded-md hover:bg-pink-600 transition cursor-pointer"
           >
             Register
           </button>
         </form>
 
         <div className="text-center my-4 text-gray-500">or</div>
-
+        <button
+          onClick={handleGoogleLogin}
+          className="w-full flex items-center justify-center border py-2 rounded-md hover:border-2 hover:border-primary transition cursor-pointer"
+        >
+          <FaGoogle className="mr-2 text-pink-500" />
+          Google Login
+        </button>
         <p className="text-center text-sm mt-4">
           Already have an account?{" "}
           <Link to="/login" className="text-pink-500 hover:underline">
@@ -144,6 +177,7 @@ const Register = () => {
           </Link>
         </p>
       </div>
+      <ToastContainer />
     </div>
   );
 };

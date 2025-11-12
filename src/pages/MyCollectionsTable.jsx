@@ -58,7 +58,7 @@ const MyCollectionsTable = ({ movie, onDelete }) => {
   };
 
   return (
-    <tr className="hover:bg-base-300 transition-all duration-200 ">
+    <tr className="hover:bg-base-300 transition-all duration-200 text-xs ">
       <td>
         <img
           src={posterUrl}

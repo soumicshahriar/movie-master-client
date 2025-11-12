@@ -61,23 +61,12 @@ const WatchList = () => {
   };
 
   if (loading) return <Loader />;
-  // Animation variants
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  };
 
   return (
     <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, amount: 0.2 }}
-      variants={sectionVariants}
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
       className="max-w-6xl mx-auto p-6"
     >
       <h1 className="text-xl font-bold mb-6 text-center ">
@@ -88,13 +77,7 @@ const WatchList = () => {
       {movies.length === 0 ? (
         <p className="text-center text-gray-500">Your WatchList is empty.</p>
       ) : (
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false, amount: 0.2 }}
-          variants={cardVariants}
-          className="grid grid-cols-1 md:grid-cols-3  gap-6"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-3  gap-6">
           {movies.map((movie) => (
             <div
               key={movie._id}
@@ -134,7 +117,7 @@ const WatchList = () => {
               </div>
             </div>
           ))}
-        </motion.div>
+        </div>
       )}
 
       {/* 🎥 Movie Details Modal (DaisyUI) */}

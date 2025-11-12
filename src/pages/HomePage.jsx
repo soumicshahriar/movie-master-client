@@ -278,7 +278,7 @@ const HomePage = () => {
 
       {/* -------------------- Genres Section -------------------- */}
       <motion.section
-        className="space-y-4 text-center py-10 rounded-xl"
+        className="space-y-4 text-center py-10 rounded-xl shadow-md shadow-primary"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.01 }}
@@ -304,16 +304,16 @@ const HomePage = () => {
 
       {/* -------------------- About Section -------------------- */}
       <motion.section
-        className="py-10 px-6 text-center bg-linear-to-r from-pink-500 to-pink-700 text-white rounded-xl space-y-4 shadow-lg"
+        className="py-10 px-6 text-center shadow-primary text-white rounded-xl space-y-4 shadow-md"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.2 }}
         variants={sectionVariants}
       >
-        <motion.h2 className="text-3xl font-bold" variants={cardVariants}>
+        <motion.h2 className="text-xl font-bold" variants={cardVariants}>
           About MovieMaster Pro
         </motion.h2>
-        <motion.p className="max-w-3xl mx-auto text-lg" variants={cardVariants}>
+        <motion.p className="max-w-3xl mx-auto " variants={cardVariants}>
           MovieMaster Pro is your ultimate movie database platform, featuring a
           dynamic collection of movies, user ratings, and personalized
           recommendations. Discover, explore, and enjoy movies like never
