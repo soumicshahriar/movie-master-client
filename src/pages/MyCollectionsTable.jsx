@@ -94,6 +94,7 @@ const MyCollectionsTable = ({ movie, onDelete }) => {
           >
             <FaTrashAlt />
           </button>
+          <br />
         </div>
       </td>
     </tr>

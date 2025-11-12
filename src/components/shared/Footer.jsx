@@ -86,6 +86,7 @@ const Footer = () => {
               >
                 <FaFacebookF />
               </a>
+
               <a
                 href="https://twitter.com"
                 target="_blank"
