@@ -85,7 +85,7 @@ const Header = () => {
               : "text-gray-400 flex items-center gap-1"
           }
         >
-         <FaRegEye></FaRegEye> WatchList
+          <FaRegEye></FaRegEye> WatchList
         </NavLink>
       </li>
     </>
@@ -173,6 +173,7 @@ const Header = () => {
                       <p className="text-xs text-gray-500 text-center">
                         {dbUser?.email || user?.email}
                       </p>
+                      <ThemeToggle></ThemeToggle>
                     </div>
                   )}
 
