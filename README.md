@@ -2,7 +2,7 @@
 
 **Theme:** A comprehensive movie management system where users can browse, manage, and organize their favorite movies with advanced filtering and personal collections.
 
-**Live Site:** [https://example.com](https://movie-master-d67e4.web.app/](https://example.com](https://movie-master-d67e4.web.app/)
+**Live Site:**(https://movie-master-d67e4.web.app/)
 
 ---
 
