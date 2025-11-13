@@ -76,16 +76,16 @@ const WatchList = () => {
       {movies.length === 0 ? (
         <p className="text-center text-gray-500">Your WatchList is empty.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3  gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {movies.map((movie) => (
             <div
               key={movie._id}
-              className="bg-transparent border-2 border-primary rounded-xl shadow-md shadow-primary overflow-hidden hover:shadow-lg transition-all duration-300 text-primary flex flex-col"
+              className="bg-transparent border-2 border-primary rounded-xl shadow-md shadow-primary overflow-hidden hover:shadow-lg transition-all duration-300 text-primary flex flex-col "
             >
               <img
                 src={movie.posterUrl}
                 alt={movie.title}
-                className="w-full h-60 object-cover"
+                className="w-full h-60 object-cover border-b border-b-primary"
               />
               <div className="p-4 flex flex-col justify-between grow">
                 <div>
@@ -96,7 +96,7 @@ const WatchList = () => {
                   <p>⭐ Rating: {movie.rating}</p>
                 </div>
 
-                <div className="flex gap-2 mt-3">
+                <div className="flex flex-col gap-2 mt-3">
                   {/* Details Button */}
                   <button
                     onClick={() => openDetailsModal(movie)}

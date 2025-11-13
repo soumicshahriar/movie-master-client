@@ -31,7 +31,7 @@ const AllMovies = () => {
       <h2 className="text-xl font-bold text-center mb-8">
         All <span className="text-primary">Movies - ({allMovies.length})</span>
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {allMovies?.map((movie, i) => (
           <motion.div
             key={movie._id}
