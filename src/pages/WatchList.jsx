@@ -66,7 +66,7 @@ const WatchList = () => {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
-      className="max-w-6xl mx-auto p-6"
+      className="max-w-7xl mx-auto p-6"
     >
       <h1 className="text-xl font-bold mb-6 text-center ">
         🎬 My{" "}
