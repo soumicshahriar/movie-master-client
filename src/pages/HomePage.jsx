@@ -10,6 +10,7 @@ import { FaUsers, FaFilm, FaStar } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/Loader";
 import useAxios from "../hooks/useAxios";
+import AboutSection from "../components/AboutSection";
 
 const HomePage = () => {
   const axiosInstance = useAxios();
@@ -304,23 +305,7 @@ const HomePage = () => {
       </motion.section>
 
       {/* -------------------- About Section -------------------- */}
-      <motion.section
-        className="py-10 px-6 text-center shadow-primary text-white rounded-xl space-y-4 shadow-md"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
-        variants={sectionVariants}
-      >
-        <motion.h2 className="text-xl font-bold" variants={cardVariants}>
-          About MovieMaster Pro
-        </motion.h2>
-        <motion.p className="max-w-3xl mx-auto " variants={cardVariants}>
-          MovieMaster Pro is your ultimate movie database platform, featuring a
-          dynamic collection of movies, user ratings, and personalized
-          recommendations. Discover, explore, and enjoy movies like never
-          before!
-        </motion.p>
-      </motion.section>
+      <AboutSection></AboutSection>
     </div>
   );
 };
