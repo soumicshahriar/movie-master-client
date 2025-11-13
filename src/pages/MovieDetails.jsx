@@ -26,7 +26,7 @@ const MovieDetails = () => {
         console.error(err);
         setLoading(false);
       });
-  }, [id]);
+  }, []);
 
   const handleAddToWatchList = async (movieId, userEmail) => {
     try {
@@ -41,7 +41,7 @@ const MovieDetails = () => {
         confirmButtonColor: "#6366f1",
       });
     } catch (err) {
-      console.error(err)
+      console.error(err);
       Swal.fire({
         title: "Already added!",
         text: "This movie is already in your watchList.",
@@ -51,14 +51,14 @@ const MovieDetails = () => {
     }
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
       text: "This movie will be permanently deleted!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33", // red
-      cancelButtonColor: "#3085d6", // blue
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "Cancel",
     }).then((result) => {
@@ -70,11 +70,11 @@ const MovieDetails = () => {
               title: "Deleted!",
               text: "🎉 Movie deleted successfully!",
               icon: "success",
-              background: "#ffe4e6", // soft pink background
-              color: "#7f1d1d", // deep red text
-              confirmButtonColor: "#ec4899", // pink button
+              background: "#ffe4e6",
+              color: "#7f1d1d",
+              confirmButtonColor: "#ec4899",
             }).then(() => {
-              navigate("/"); // Redirect to homepage after deletion
+              navigate("/");
             });
           })
           .catch((err) => {
